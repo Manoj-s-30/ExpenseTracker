@@ -12,7 +12,7 @@ function CardForInsights({ h5Typography, body2Typography }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#F9F1F0",
+          backgroundColor: "#f8edeb",
           gap: "5px",
           border: "1px solid #e9ecef",
         }}
@@ -23,10 +23,15 @@ function CardForInsights({ h5Typography, body2Typography }) {
             textAlign: "center",
           }}
         >
-          <Typography variant="h5" component="div" fontWeight="bold">
+          <Typography
+            variant="h5"
+            component="div"
+            fontWeight="bold"
+            color="#3B0404"
+          >
             {h5Typography}
           </Typography>
-          <Typography variant="body2" color="text.secondary" textAlign="center">
+          <Typography variant="body2" color="#3B0404" textAlign="center">
             {body2Typography}
           </Typography>
         </CardContent>

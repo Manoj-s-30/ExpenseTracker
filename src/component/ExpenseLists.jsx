@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortIcon from "@mui/icons-material/Sort";
-import { SortByAmount } from "../utils/Utils";
+import { SortList } from "../utils/Utils";
 import addbalance from "../images/addbalance.png";
 import { NavigationLink } from "./comp/NavigationLink";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -40,6 +40,7 @@ export const ExpenseLists = () => {
 
   const HandleDeleteClick = (id) => {
     let fileredExpenseList = expenseList.filter((ele) => ele.id !== id);
+    localStorage.removeItem("ExpenseArray", JSON.stringify(fileredExpenseList));
     setExpenseList(fileredExpenseList);
   };
   useEffect(() => {}, [expenseList, setExpenseList, income, balance]);
@@ -58,7 +59,14 @@ export const ExpenseLists = () => {
   };
   console.log(expenseList);
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        margin: "30px 15px ",
+        padding: " 15px",
+      }}
+    >
       <TableContainer
         component={Paper}
         sx={{
@@ -74,7 +82,6 @@ export const ExpenseLists = () => {
           sx={{
             background: "white",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            padding: "20px",
             borderRadius: "8px",
           }}
         >
@@ -96,7 +103,8 @@ export const ExpenseLists = () => {
                 Amount
                 <IconButton
                   onClick={() =>
-                    SortByAmount(
+                    SortList(
+                      "Amount",
                       expenseList,
                       setExpenseList,
                       sortOrder,
@@ -118,6 +126,19 @@ export const ExpenseLists = () => {
                 sx={{ fontWeight: "bold", fontSize: "15px" }}
               >
                 Date
+                <IconButton
+                  onClick={() =>
+                    SortList(
+                      "Date",
+                      expenseList,
+                      setExpenseList,
+                      sortOrder,
+                      setSortOrder
+                    )
+                  }
+                >
+                  <SortIcon />
+                </IconButton>
               </TableCell>
               <TableCell
                 align="center"
@@ -152,19 +173,6 @@ export const ExpenseLists = () => {
                     >
                       No expenses found. Add your first expense now! 📝
                     </p>
-                    {/* <button
-                      style={{
-                        padding: "8px 16px",
-                        backgroundColor: "#1976D2",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => alert("Open Add Expense Form")} // Replace with your function
-                    >
-                      + Add Expense
-                    </button> */}
                     {income === 0 ? (
                       <NavigationLink
                         component="button"
@@ -208,12 +216,12 @@ export const ExpenseLists = () => {
                     {ele.payment} {ele.payment === "Cash" ? "💸" : "🏦"}
                   </TableCell>
                   <TableCell align="center">
-                    {dayjs(ele.date?.$d).format("DD-MM-YYYY")}
+                    {new Date(ele.date).toLocaleDateString("en-GB")}
                   </TableCell>
                   <TableCell align="center">{ele.notes || "N / A"}</TableCell>
                   <TableCell align="center">
                     <DeleteOutlineOutlinedIcon
-                      sx={{ color: "red" }}
+                      sx={{ color: "red", cursor: "pointer" }}
                       onClick={() => HandleDeleteClick(ele.id)}
                     />
                   </TableCell>

@@ -47,7 +47,7 @@ function SectionPage() {
           height: "100%",
           objectFit: "cover",
           zIndex: 0,
-          marginTop: "70px",
+          marginTop: "130px",
         }}
       />
       <div

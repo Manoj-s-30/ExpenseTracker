@@ -13,6 +13,18 @@ export const AccountBalance = () => {
     let inputValue = e.target.value;
     setIncome(inputValue);
   };
+  useEffect(() => {
+    if (income.length > 0) {
+      localStorage.setItem("InputValue", JSON.stringify(income));
+    }
+  }, [income, setIncome, balance]);
+  useEffect(() => {
+    let getIncome = localStorage.getItem("InputValue");
+    if (getIncome) {
+      setIncome(JSON.parse(getIncome));
+      console.log("incomefromlocalstorge", income);
+    }
+  }, []);
   let totalExp = expenseList
     .map((ele) => Number(ele.amount))
     .reduce((acc, inc) => acc + inc, 0);

@@ -27,30 +27,36 @@ export const LoginCredentials = (userData, setIsAuthenticated) => {
     setIsAuthenticated(false);
   }
 };
-export const SortByAmount = (
+export const SortList = (
+  value,
   expenseList,
   setExpenseList,
   sortOrder,
   setSortOrder
 ) => {
-  let sortedAmount = [...expenseList].sort((a, b) =>
-    sortOrder === "asc"
-      ? Number(a.amount) - Number(b.amount)
-      : Number(b.amount) - Number(a.amount)
-  );
+  let sortedAmount = [...expenseList].sort((a, b) => {
+    if (value === "Amount") {
+      return sortOrder === "asc"
+        ? Number(a.amount) - Number(b.amount)
+        : Number(b.amount) - Number(a.amount);
+    } else if (value === "Date") {
+      return sortOrder === "asc"
+        ? new Date(a?.date?.$d) - new Date(b?.date?.$d)
+        : new Date(b?.date?.$d) - new Date(a?.date?.$d);
+    }
+  });
   setExpenseList(sortedAmount);
   setSortOrder(sortOrder === "asc" ? "dec" : "asc");
   console.log("expenseListfrom sort", expenseList);
 };
 
-export const GetPaymentMethodAmount = (byCash, byBank, income) => {
-  const ByCash = byCash
-    .map((ele) => Number(ele.amount))
-    .reduce((acc, ini) => acc + ini, 0);
-  const ByBank = byBank
-    .map((ele) => Number(ele.amount))
-    .reduce((acc, ini) => acc + ini, 0);
-  const Total = ByCash + ByBank;
-  let SpendPercent = ((Total / income) * 100).toFixed(2) + "%";
-  return ["₹" + ByCash, "₹" + ByBank, "₹" + Total, SpendPercent];
+export const GetPaymentMethodAmount = (byCash, byBank, income, Total) => {
+  const incomeNumb = Number(income);
+  let SpendPercent = ((Total / incomeNumb) * 100).toFixed(2) + "%";
+  return ["₹" + byCash, "₹" + byBank, "₹" + Total, SpendPercent];
+};
+export const CheckValidation = (expenseData, setValidationError) => {
+  let hasError = expenseData.category === "" || expenseData.amount === 0;
+  setValidationError(hasError);
+  return !hasError;
 };

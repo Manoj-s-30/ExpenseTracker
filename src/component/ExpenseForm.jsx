@@ -16,6 +16,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { SnackBarComponent } from "./comp/SnackBarComponent";
+import { FlashOffRounded } from "@mui/icons-material";
+import { CheckValidation } from "../utils/Utils";
 
 const ExpenseForm = () => {
   const {
@@ -33,6 +35,7 @@ const ExpenseForm = () => {
     showSnackBar,
   } = useContext(UserContext);
   const [s, setS] = useState(false);
+  const [ValidationError, setValidationError] = useState(false);
 
   const HandleCloseClick = (e) => {
     setAncholEl(null);
@@ -56,10 +59,22 @@ const ExpenseForm = () => {
   };
   useEffect(() => {}, [balance, setBalance, setShowSnackBar]);
 
-  localStorage.setItem("ExpenseArray", JSON.stringify(expenseList));
+  useEffect(() => {
+    const storedExpenses = localStorage.getItem("ExpenseArray");
+    if (storedExpenses) {
+      setExpenseList(JSON.parse(storedExpenses));
+    }
+  }, []);
 
+  useEffect(() => {
+    if (expenseList.length > 0) {
+      localStorage.setItem("ExpenseArray", JSON.stringify(expenseList));
+    }
+  }, [expenseList]);
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!CheckValidation(expenseData, setValidationError)) return;
+
     let newBalance = balance - parseFloat(expenseData.amount);
     if (newBalance < 0) {
       setS(true);
@@ -76,7 +91,7 @@ const ExpenseForm = () => {
     });
     HandleCloseClick();
   };
-
+  console.log("error", ValidationError);
   return (
     <PopoverTable
       open={showExpenseForm}
@@ -90,7 +105,10 @@ const ExpenseForm = () => {
       <Box sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker"]}>
-            <DatePicker value={expenseData.date} onChange={handleDateChange} />
+            <DatePicker
+              value={expenseData.date ? dayjs(expenseData.date) : null}
+              onChange={handleDateChange}
+            />
           </DemoContainer>
         </LocalizationProvider>
         <FormControl component="fieldset">
@@ -155,7 +173,12 @@ const ExpenseForm = () => {
           >
             Close
           </Button>
-          <Button onClick={handleSubmit} variant="contained" color="primary">
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            color="primary"
+            disabled={ValidationError}
+          >
             Add Expense
           </Button>
         </div>
@@ -170,9 +193,18 @@ const ExpenseForm = () => {
       >
         Expense is Exceeding your Balance
       </SnackBarComponent>
+
+      <SnackBarComponent
+        open={ValidationError}
+        autoHideDuration={2000}
+        onClose={() => setValidationError(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        severity="error"
+      >
+        Expense Category and Expense Amount should not be empty
+      </SnackBarComponent>
     </PopoverTable>
   );
 };
 
 export default ExpenseForm;
-//

@@ -2,6 +2,7 @@ import {
   Alert,
   AppBar,
   Box,
+  Button,
   Fade,
   Link,
   Popper,
@@ -16,6 +17,7 @@ import ExpenseForm from "./ExpenseForm";
 import { AddIncomeForm } from "./AddIncomeForm";
 import { SnackBarComponent } from "./comp/SnackBarComponent";
 import Logo from "../images/Logo.png";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const {
@@ -27,6 +29,9 @@ export const Header = () => {
     showSnackBar,
     setShowSnackBar,
   } = useContext(UserContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const HandleOpenClick = (e, type) => {
     if (type === "expense") {
@@ -73,37 +78,52 @@ export const Header = () => {
               Expense Tracker
             </Typography>
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "15px",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <NavigationLink
-              component="button"
-              variant="body2"
-              underline="none"
-              ariaDescribedby="id"
-              onClick={(e) => HandleOpenClick(e, "income")}
-              icon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
+          {location.pathname === "/" ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "15px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              Add Income
-            </NavigationLink>
+              <NavigationLink
+                component="button"
+                variant="body2"
+                underline="none"
+                ariaDescribedby="id"
+                onClick={(e) => HandleOpenClick(e, "income")}
+                icon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
+              >
+                Add Income
+              </NavigationLink>
 
-            <NavigationLink
-              component="button"
-              variant="body2"
-              underline="none"
-              ariaDescribedby="id"
-              onClick={(e) => HandleOpenClick(e, "expense")}
-              icon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
-            >
-              Add Expense
-            </NavigationLink>
-          </div>
+              <NavigationLink
+                component="button"
+                variant="body2"
+                underline="none"
+                ariaDescribedby="id"
+                onClick={(e) => HandleOpenClick(e, "expense")}
+                icon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
+              >
+                Add Expense
+              </NavigationLink>
+            </div>
+          ) : (
+            <div>
+              <Button
+                sx={{
+                  fontSize: "15px",
+                  textTransform: "none",
+                  color: "#3B0404",
+                }}
+                onClick={() => navigate("/")}
+              >
+                Return to HomePage
+              </Button>
+            </div>
+          )}
         </div>
         <div style={{ zIndex: 1 }}>
           <ExpenseForm />

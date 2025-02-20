@@ -3,6 +3,7 @@ import { Header } from "./Header";
 import { AccountBalance } from "./AccountBalance";
 import { ExpenseLists } from "./ExpenseLists";
 import SectionPage from "./SectionPage";
+import PaymentPieChart from "./Insights/PaymentPieChart";
 
 export const DashBoard = () => {
   return (

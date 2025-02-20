@@ -1,18 +1,30 @@
 import React, { useContext, useEffect } from "react";
 import UserContext from "../../context/userContext";
 import { GetPaymentMethodAmount } from "../../utils/Utils";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import CardForInsights from "../comp/CardForInsights";
 
 export const PaymentMethodCard = () => {
-  const { expenseList, setSplitUpAmount, splitUpAmount, income } =
+  const { expenseList, setSplitUpAmount, splitUpAmount } =
     useContext(UserContext);
-  const amountPaidByCash = expenseList.filter((ele) => ele.payment === "Cash");
-  const amountPaidByBank = expenseList.filter((ele) => ele.payment === "Bank");
+  const amountPaidByCash = expenseList
+    .filter((ele) => ele.payment === "Cash")
+    .map((ele) => Number(ele.amount))
+    .reduce((acc, ini) => acc + ini, 0);
+  const amountPaidByBank = expenseList
+    .filter((ele) => ele.payment === "Bank")
+    .map((ele) => Number(ele.amount))
+    .reduce((acc, ini) => acc + ini, 0);
+  const Total = amountPaidByCash + amountPaidByBank;
+  console.log("cash&bank", amountPaidByBank, amountPaidByCash);
+  let x = localStorage.getItem("InputValue");
+  let incomeFromLocalStorage = JSON.parse(x);
+  console.log("incomeFromLocalStorage", incomeFromLocalStorage);
   let returnvalue = GetPaymentMethodAmount(
     amountPaidByCash,
     amountPaidByBank,
-    income
+    incomeFromLocalStorage,
+    Total
   );
 
   useEffect(() => {}, [expenseList]);
@@ -24,26 +36,35 @@ export const PaymentMethodCard = () => {
     } else if (index === 2) {
       return "Total spend";
     } else if (index === 3) {
-      return "Percent spend";
+      return "Spent on your income";
     }
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-evenly",
-      }}
-    >
-      {returnvalue.map((ele, ind) => (
-        <CardForInsights
-          key={ind}
-          body2Typography={setTitle(ind)}
-          h5Typography={ele}
-        />
-      ))}
-    </Box>
+    <div>
+      <Typography
+        variant="h5"
+        sx={{ padding: "10px", display: "flex", justifyContent: "start" }}
+      >
+        Amount Breakup
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
+          margin: "10px 0px",
+        }}
+      >
+        {returnvalue.map((ele, ind) => (
+          <CardForInsights
+            key={ind}
+            body2Typography={setTitle(ind)}
+            h5Typography={ele}
+          />
+        ))}
+      </Box>
+    </div>
   );
 };
 
