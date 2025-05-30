@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import SortIcon from "@mui/icons-material/Sort";
-import { SortList } from "../utils/Utils";
+import { getMonthFromExpenseList, SortList } from "../utils/Utils";
 import addbalance from "../images/addbalance.png";
 import { NavigationLink } from "./comp/NavigationLink";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
@@ -35,6 +35,7 @@ export const ExpenseLists = () => {
     setShowIncomeForm,
     income,
     balance,
+    fixedExpenseList,
   } = useContext(UserContext);
   const [sortOrder, setSortOrder] = useState("asc");
 
@@ -58,6 +59,7 @@ export const ExpenseLists = () => {
     }
   };
   console.log(expenseList);
+
   return (
     <div
       style={{
@@ -101,17 +103,7 @@ export const ExpenseLists = () => {
                 sx={{ fontWeight: "bold", fontSize: "15px" }}
               >
                 Amount
-                <IconButton
-                  onClick={() =>
-                    SortList(
-                      "Amount",
-                      expenseList,
-                      setExpenseList,
-                      sortOrder,
-                      setSortOrder
-                    )
-                  }
-                >
+                <IconButton>
                   <SortIcon />
                 </IconButton>
               </TableCell>
@@ -126,17 +118,7 @@ export const ExpenseLists = () => {
                 sx={{ fontWeight: "bold", fontSize: "15px" }}
               >
                 Date
-                <IconButton
-                  onClick={() =>
-                    SortList(
-                      "Date",
-                      expenseList,
-                      setExpenseList,
-                      sortOrder,
-                      setSortOrder
-                    )
-                  }
-                >
+                <IconButton>
                   <SortIcon />
                 </IconButton>
               </TableCell>

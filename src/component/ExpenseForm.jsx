@@ -17,7 +17,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { SnackBarComponent } from "./comp/SnackBarComponent";
 import { FlashOffRounded } from "@mui/icons-material";
-import { CheckValidation } from "../utils/Utils";
+import { CheckValidation, getMonthFromExpenseList } from "../utils/Utils";
 
 const ExpenseForm = () => {
   const {
@@ -81,6 +81,12 @@ const ExpenseForm = () => {
       return;
     }
     setExpenseList((prev) => [...prev, expenseData]);
+    let currMonth = new Date(expenseData.date)
+      .toLocaleDateString("en-GB")
+      .slice(3, 5);
+    getMonthFromExpenseList(expenseList, currMonth);
+
+    console.log("NewOnce", newone);
     setExpenseData({
       id: Date.now(),
       date: dayjs(),

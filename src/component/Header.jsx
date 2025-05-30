@@ -7,6 +7,7 @@ import {
   Link,
   Popper,
   Snackbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
@@ -18,6 +19,7 @@ import { AddIncomeForm } from "./AddIncomeForm";
 import { SnackBarComponent } from "./comp/SnackBarComponent";
 import Logo from "../images/Logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AddFixedExpenseForm } from "./AddFixedExpensesForm";
 
 export const Header = () => {
   const {
@@ -28,6 +30,7 @@ export const Header = () => {
     showIncomeForm,
     showSnackBar,
     setShowSnackBar,
+    setShowFixedExpenseForm,
   } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -44,7 +47,9 @@ export const Header = () => {
     } else if (type === "income") {
       setShowIncomeForm(true);
       setAncholEl(e.currentTarget);
-      console.log(showIncomeForm);
+    } else if (type === "fixed_expense") {
+      setAncholEl(e.currentTarget);
+      setShowFixedExpenseForm(true);
     }
   };
 
@@ -109,6 +114,17 @@ export const Header = () => {
               >
                 Add Expense
               </NavigationLink>
+              <NavigationLink
+                component="button"
+                variant="body2"
+                underline="none"
+                ariaDescribedby="id"
+                onClick={(e) => HandleOpenClick(e, "fixed_expense")}
+                icon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
+                tooltipContent="Add fixed expenses like Rent, Bills, EMI"
+              >
+                Add Fixed Expense
+              </NavigationLink>
             </div>
           ) : (
             <div>
@@ -127,9 +143,9 @@ export const Header = () => {
         </div>
         <div style={{ zIndex: 1 }}>
           <ExpenseForm />
-        </div>
-        <div style={{ zIndex: 1 }}>
+
           <AddIncomeForm />
+          <AddFixedExpenseForm />
         </div>
         <SnackBarComponent
           open={showSnackBar}

@@ -57,8 +57,9 @@ function PaymentLineChart() {
             <XAxis
               dataKey="name"
               tickFormatter={(tick) => dayjs(tick).format("DD MMM")}
+              stroke="#3B0404"
             />
-            <YAxis domain={["auto", "auto"]} />
+            <YAxis domain={["auto", "auto"]} stroke="#3B0404" />
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="spendings" stroke="#3B0404" />

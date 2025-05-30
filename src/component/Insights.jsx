@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Paper, Typography } from "@mui/material";
+import { Button, ButtonGroup, Card, Paper, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import CardForInsights from "./comp/CardForInsights";
 import { PaymentMethodCard } from "./Insights/PaymentMethodCard";
@@ -13,7 +13,7 @@ export const Insights = () => {
   return (
     <div
       style={{
-        margin: "15px",
+        margin: "5px",
       }}
     >
       {/* <div style={{ margin: "15px" }}> */}
@@ -44,21 +44,41 @@ export const Insights = () => {
                 flexDirection: "column",
                 // margin: "20px",
                 width: "100%",
-                padding: "10px",
+                padding: "5px",
               }}
             >
               Spending Trends Over Time
             </Typography>
-            <div style={{ padding: "0px 10px" }}>
+            {/* <div style={{ padding: "0px 10px" }}>
               <ButtonGroup variant="contained" aria-label="Basic button group">
                 <Button>Daily</Button>
                 <Button>Monthly</Button>
                 <Button>Yearly</Button>
               </ButtonGroup>
-            </div>
+            </div> */}
           </div>
-          <div style={{ margin: "20px", padding: "20px" }}>
-            <PaymentLineChart />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Card
+              sx={{
+                margin: "10px",
+                padding: "20px",
+                backgroundColor: "#deb3ad",
+                width: "50%",
+                height: "350px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "30px",
+              }}
+            >
+              <PaymentLineChart />
+            </Card>
           </div>
         </div>
       )}

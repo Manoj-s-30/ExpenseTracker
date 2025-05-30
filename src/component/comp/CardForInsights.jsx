@@ -12,9 +12,9 @@ function CardForInsights({ h5Typography, body2Typography }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#f8edeb",
+          backgroundColor: "#ffffff",
           gap: "5px",
-          border: "1px solid #e9ecef",
+          borderRadius: "15px",
         }}
       >
         <CardContent

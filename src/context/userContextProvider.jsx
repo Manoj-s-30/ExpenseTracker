@@ -19,6 +19,8 @@ function UserContextProvider({ children }) {
   const [expenseList, setExpenseList] = useState([]);
   const [showIncomeForm, setShowIncomeForm] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
+  const [showFixedExpenseForm, setShowFixedExpenseForm] = useState(false);
+  const [fixedExpenseList, setFixedExpenseList] = useState([]);
   const [splitUpAmount, setSplitUpAmount] = useState([
     {
       paymentMethod: "Cash",
@@ -51,6 +53,10 @@ function UserContextProvider({ children }) {
         showIncomeForm,
         showSnackBar,
         setShowSnackBar,
+        fixedExpenseList,
+        setFixedExpenseList,
+        showFixedExpenseForm,
+        setShowFixedExpenseForm,
       }}
     >
       {children}

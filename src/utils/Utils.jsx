@@ -60,3 +60,12 @@ export const CheckValidation = (expenseData, setValidationError) => {
   setValidationError(hasError);
   return !hasError;
 };
+
+export const getMonthFromExpenseList = (expl, expenseData) => {
+  let GetMonth = expl
+    .map((ele) => ele.date)
+    .map((ele) => new Date(ele).toLocaleDateString("en-GB"))
+    .map((ele) => (typeof ele === "string" ? ele.slice(3, 5) : ele));
+
+  return GetMonth === expenseData;
+};
